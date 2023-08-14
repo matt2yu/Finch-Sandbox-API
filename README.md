@@ -14,9 +14,6 @@ This project demonstrates how to interact with the Finch Sandbox API to create a
 
 1. Clone the repository:
 git clone <https://github.com/matt2yu/Finch-Sandbox-API.git>
-
-cd finch-api-demo
-
 3. Install dependencies:
 npm i axios
 npm i express
