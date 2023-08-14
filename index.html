@@ -1,0 +1,59 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>Finch Sandbox API Demo</title>
+    <script src="https://cdn.jsdelivr.net/npm/axios/dist/axios.min.js"></script>
+    <link rel="stylesheet" type="text/css" href="style.css">
+
+</head>
+<body>
+
+
+    <h1>Finch Sandbox API Demo</h1>
+    
+    <form id="apiForm">
+        <label for="providerId">Select a Provider:</label>
+        <select id="providerId" name="providerId">
+            <option value=""></option>
+            <option value="adp_run">ADP Run</option>
+            <option value="bamboo_hr">Bamboo HR</option>
+            <option value="bamboo_hr_api">Bamboo HR API</option>
+            <option value="bob">BOB</option>
+            <option value="gusto">Gusto</option>
+            <option value="humaans">Humaans</option>
+            <option value="insperity">Insperity</option>
+            <option value="justworks">Justworks</option>
+            <option value="namely">Namely</option>
+            <option value="paychex_flex">Paychex Flex</option>
+            <option value="paychex_flex_api">Paychex Flex API</option>
+            <option value="paycom">Paycom</option>
+            <option value="paycom_api">Paycom API</option>
+            <option value="paylocity">Paylocity</option>
+            <option value="paylocity_api">Paylocity API</option>
+            <option value="personio">Personio</option>
+            <option value="quickbooks">QuickBooks</option>
+            <option value="rippling">Rippling</option>
+            <option value="sage_hr">Sage HR</option>
+            <option value="sapling">Sapling</option>
+            <option value="sequoia_one">Sequoia One</option>
+            <option value="square_payroll">Square Payroll</option>
+            <option value="trinet">TriNet</option>
+            <option value="trinet_api">TriNet API</option>
+            <option value="ulti_pro">UltiPro</option>
+            <option value="wave">Wave</option>
+            <option value="workday">Workday</option>
+            <option value="zenefits">Zenefits</option>
+            <option value="zenefits_api">Zenefits API</option>
+        </select>
+        <br>
+        <div id="errorMessage" class="error-message"></div>
+
+        <label for="employeeSize">Employee Size:</label>
+        <input type="number" id="employeeSize" name="employeeSize" min="1" max="200" value="10">
+        <br>
+        <button type="submit">Get Company and Employee Info</button>
+    </form>
+
+    <script src="script.js"></script>
+</body>
+</html>
