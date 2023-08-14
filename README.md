@@ -15,12 +15,12 @@ This project demonstrates how to interact with the Finch Sandbox API to create a
 1. Clone the repository:
 git clone <https://github.com/matt2yu/Finch-Sandbox-API.git>
 2. Install dependencies:
-- npm i axios
-- npm i express
-- npm i body-parser
-- npm i -g cors-anywhere
+  - npm i axios
+  - npm i express
+  - npm i body-parser
+  - npm i -g cors-anywhere
 3. Activate cors-anywhere
-cors-anywhere session: https://cors-anywhere.herokuapp.com/
+  - cors-anywhere session: https://cors-anywhere.herokuapp.com/
 4. Run server
   - Run in terminal: node server.js
   - Go to http://localhost:3000 in your web browser
