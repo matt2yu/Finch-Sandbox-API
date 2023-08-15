@@ -1,74 +1,51 @@
-const corsAnywhereUrl = 'https://cors-anywhere.herokuapp.com/'; 
+document.getElementById('apiForm').addEventListener('submit', async (event) => {
+    event.preventDefault(); 
 
-document.addEventListener('DOMContentLoaded', function() {
-    const apiForm = document.getElementById('apiForm');
-    const errorMessage = document.getElementById('errorMessage'); 
+    try {
+        const formData = new FormData(event.target);
+        const providerId = formData.get('providerId');
+        const employeeSize = formData.get('employeeSize');
 
+        const accessTokenResponse = await fetch('/getAccessToken', {
+            method: 'POST',
+            headers: {
+                'Content-Type': 'application/json',
+                'Origin': event.target.origin
+            },
+            body: JSON.stringify({
+                providerId,  
+                employeeSize, 
+                productz: ["company", "directory", "individual", "employment"]
+            })
+        });
 
-    apiForm.addEventListener('submit', async function(event) {
-        event.preventDefault();
+        if (accessTokenResponse.ok) {
+            const accessTokenData = await accessTokenResponse.json();
+            const accessToken = accessTokenData.access_token;
 
-        const providerId = document.getElementById('providerId').value;
-        const employeeSize = document.getElementById('employeeSize').value;
+            const companyInfoResponse = await fetch('/getCompanyInfo', {
+                headers: {
+                    Authorization: `Bearer ${accessToken}`
+                }
+            });
+            const companyInfo = await companyInfoResponse.json();
 
-        try {
-            const accessToken = await getAccessToken(providerId, employeeSize);
-            const companyInfo = await getCompanyInfo(accessToken);
-            const employeeDirectory = await getEmployeeDirectory(accessToken);
+            const employeeDirectoryResponse = await fetch('/getEmployeeDirectory', {
+                headers: {
+                    Authorization: `Bearer ${accessToken}`
+                }
+            });
+            const employeeDirectory = await employeeDirectoryResponse.json();
 
             sessionStorage.setItem('companyInfo', JSON.stringify(companyInfo));
             sessionStorage.setItem('employeeDirectory', JSON.stringify(employeeDirectory));
 
-            window.location.href = 'results.html';
-        } catch (error) {
-            errorMessage.textContent = `A provider must be selected.`;
-            console.error('Error:', error.message);
+            window.location.href = '/results.html';
+        } else {
+            const errorData = await accessTokenResponse.text();
+            console.error('Error:', errorData);
         }
-    });
-});
-
-async function getAccessToken(providerId, employeeSize) {
-    const products = [
-        'company', 'directory', 'individual', 'employment' // not including payment and pay_statement
-    ];
-
-    const response = await axios.post(corsAnywhereUrl + 'https://sandbox.tryfinch.com/api/sandbox/create', {
-        provider_id: providerId,
-        products: products,
-        employee_size: employeeSize
-    }, {
-        headers: {
-            'Content-Type': 'application/json'
-        }
-    });
-
-    return response.data.access_token;
-}
-
-async function getCompanyInfo(accessToken) {
-    try {
-        const response = await axios.get(corsAnywhereUrl + 'https://sandbox.tryfinch.com/api/employer/company', {
-            headers: {
-                Authorization: `Bearer ${accessToken}`,
-                'Content-Type': 'application/json'
-            }
-        });
-
-        return response.data;
     } catch (error) {
-        if (error.response && error.response.status === 501) {
-            return null;
-        }
+        console.error(error);
     }
-}
-
-async function getEmployeeDirectory(accessToken) {
-    const response = await axios.get(corsAnywhereUrl+ 'https://sandbox.tryfinch.com/api/employer/directory', {
-        headers: {
-            Authorization: `Bearer ${accessToken}`,
-            'Content-Type': 'application/json'
-        }
-    });
-
-    return response.data;
-}
+});
